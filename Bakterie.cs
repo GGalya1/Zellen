@@ -32,7 +32,11 @@ namespace Zellen
 
         public Einzeller(Einzeller ez)//es kann mehr als ein Konstruktor sein
         {
-
+            PositionX = ez.PositionX;
+            PositionY = ez.PositionY;
+            e.Width = ez.e.Width;
+            e.Height = ez.e.Height;
+            e.Fill = ez.e.Fill;
         }
 
         //Methoden
@@ -62,11 +66,17 @@ namespace Zellen
         {
 
         }
+        public Bakterie(Bakterie b) : base(b) { }//von oben abgeschrieben. Wiederholung: es kann zwei Konstruktoren sein
 
         //Methoden
         public override List<Einzeller> Teilen()
         {
-            
+            List<Einzeller> toechter = new List<Einzeller>();
+            if (rnd.NextDouble() < 0.2) //das Entstehen mit einer Wahrscheinligkeit. Hier - 20 Prozent
+            {
+                toechter.Add(new Bakterie(this));
+            }
+            return toechter;
         }
     }
 

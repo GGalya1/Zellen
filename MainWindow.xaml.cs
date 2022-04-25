@@ -35,6 +35,14 @@ namespace Zellen
         {
             Flache.Children.Clear();
             zoo.ForEach(x => { x.Bewegen(); x.Zeichen(Flache); }); //viele Zeilen in einer kombiniert. Man kann auch eine foreach-Schleife machen
+            
+            List<Einzeller> Kindergarten = new List<Einzeller>();
+            foreach (Einzeller item in zoo)
+            {
+                Kindergarten.AddRange(item.Teilen());
+            }
+
+            zoo.AddRange(Kindergarten); //und dann fuegen die ganze Liste in unserer Hauptliste
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
