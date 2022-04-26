@@ -17,6 +17,8 @@ namespace Zellen
         public double PositionX { get; private set; }/* = rnd.Next(10, 752);*/
         public double PositionY { get; private set; }/* = rnd.Next(10, 350);*/
 
+        public bool istTot { get; protected set; }
+
         Ellipse e = new Ellipse();
 
         //Konstruktor
@@ -37,6 +39,7 @@ namespace Zellen
             e.Width = ez.e.Width;
             e.Height = ez.e.Height;
             e.Fill = ez.e.Fill;
+            istTot = false;
         }
 
         //Methoden
@@ -53,8 +56,14 @@ namespace Zellen
             PositionY += rnd.Next(-1, 2) * 2;
         }
 
+        public void Farbe(Brush color)
+        {
+            e.Fill = color;
+        }
+
         public abstract List<Einzeller> Teilen();
-        public abstract List<Einzeller> Sterben();
+        public abstract void Sterben();
+        public abstract void Sterben(bool stirb);
     }
 
 
@@ -80,14 +89,16 @@ namespace Zellen
             return toechter;
         }
 
-        public override List<Einzeller> Sterben()
+        public override void Sterben()
         {
-            List<Einzeller> leichen = new List<Einzeller>();
-            if (rnd.NextDouble() < 0.02) //das Sterben mit einer Wahrscheinligkeit. Hier - 2 Prozent
+            if (rnd.NextDouble() < 0.01) //das Sterben mit einer Wahrscheinligkeit. Hier - 2 Prozent
             {
-                leichen.Add(new Bakterie(this));
+                this.istTot = true;
             }
-            return leichen;
+        }
+        public override void Sterben(bool stirb)
+        {
+            this.istTot = stirb;
         }
     }
 
@@ -115,14 +126,26 @@ namespace Zellen
             return toechter;
         }
 
-        public override List<Einzeller> Sterben()
+        public override void Sterben()
         {
-            List<Einzeller> leichen = new List<Einzeller>();
-            if (rnd.NextDouble() < 0.02) //das Sterben mit einer Wahrscheinligkeit. Hier - 2 Prozent
+            if (rnd.NextDouble() < 0.01) //das Sterben mit einer Wahrscheinligkeit. Hier - 2 Prozent
             {
-                leichen.Add(new Amoebe(this));
+                this.istTot = true;
             }
-            return leichen;
+        }
+        public override void Sterben(bool stirb)
+        {
+            this.istTot = stirb;
+        }
+
+        public void Fressen(Bakterie futter)
+        {
+            double Abstand = Math.Sqrt(Math.Pow(PositionX - futter.PositionX,2) + Math.Pow(PositionY - futter.PositionY, 2));
+            if (Abstand < 20)
+            {
+                futter.Sterben(true);
+                this.Farbe(Brushes.AliceBlue); //von sich selbst aufraufen. Hier: Farbe 
+            }
         }
     }
 }

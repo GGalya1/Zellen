@@ -34,19 +34,42 @@ namespace Zellen
         public void animieren(object sender, EventArgs e)
         {
             Flache.Children.Clear();
-            zoo.ForEach(x => { x.Bewegen(); x.Zeichen(Flache); }); //viele Zeilen in einer kombiniert. Man kann auch eine foreach-Schleife machen
-            
             List<Einzeller> Kindergarten = new List<Einzeller>();
-            List<Einzeller> Friedhof = new List<Einzeller>();
+            List<Einzeller> Futter = new List<Einzeller>();
 
-            foreach (Einzeller item in zoo) //erstellen zwei Liste mit Zellen die geteilt und die gestorben wurden
+            foreach (Einzeller item in zoo) //nur Bakterien in Zoo durchlaufen
             {
-                Kindergarten.AddRange(item.Teilen());
-                Friedhof.AddRange(item.Sterben());
+                if (item is Bakterie)
+                    Futter.Add(item);
             }
 
+            zoo.ForEach(x => 
+            { 
+                x.Bewegen();
+                x.Zeichen(Flache);
+                Kindergarten.AddRange(x.Teilen());
+                x.Sterben();
+            }); //viele Zeilen in einer kombiniert. Man kann auch eine foreach-Schleife machen
+
+            foreach (Einzeller itemAmoebe in zoo) //jetzt jede Amöbe guckt, ob sie eine Bakterie fressen kann
+            {
+                if(itemAmoebe is Amoebe)
+                {
+                    foreach (Einzeller itemBakterie in Futter)
+                    {
+                        itemAmoebe.Fressen(itemBakterie);
+                    }
+                }
+            }
+
+            //foreach (Einzeller item in zoo) //erstellen zwei Liste mit Zellen die geteilt und die gestorben wurden
+            //{
+            //   Kindergarten.AddRange(item.Teilen());
+            //    item.Sterben();
+            //}
+
             zoo.AddRange(Kindergarten); //und dann fuegen die ganze Liste in unserer Hauptliste
-            zoo.RemoveAll(x => Friedhof.Contains(x));
+            zoo.RemoveAll(x => x.istTot);
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
