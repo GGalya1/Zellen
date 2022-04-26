@@ -37,12 +37,16 @@ namespace Zellen
             zoo.ForEach(x => { x.Bewegen(); x.Zeichen(Flache); }); //viele Zeilen in einer kombiniert. Man kann auch eine foreach-Schleife machen
             
             List<Einzeller> Kindergarten = new List<Einzeller>();
-            foreach (Einzeller item in zoo)
+            List<Einzeller> Friedhof = new List<Einzeller>();
+
+            foreach (Einzeller item in zoo) //erstellen zwei Liste mit Zellen die geteilt und die gestorben wurden
             {
                 Kindergarten.AddRange(item.Teilen());
+                Friedhof.AddRange(item.Sterben());
             }
 
             zoo.AddRange(Kindergarten); //und dann fuegen die ganze Liste in unserer Hauptliste
+            zoo.RemoveAll(x => Friedhof.Contains(x));
         }
 
         private void button_Click(object sender, RoutedEventArgs e)

@@ -54,6 +54,7 @@ namespace Zellen
         }
 
         public abstract List<Einzeller> Teilen();
+        public abstract List<Einzeller> Sterben();
     }
 
 
@@ -72,11 +73,21 @@ namespace Zellen
         public override List<Einzeller> Teilen()
         {
             List<Einzeller> toechter = new List<Einzeller>();
-            if (rnd.NextDouble() < 0.2) //das Entstehen mit einer Wahrscheinligkeit. Hier - 20 Prozent
+            if (rnd.NextDouble() < 0.02) //das Entstehen mit einer Wahrscheinligkeit. Hier - 2 Prozent
             {
                 toechter.Add(new Bakterie(this));
             }
             return toechter;
+        }
+
+        public override List<Einzeller> Sterben()
+        {
+            List<Einzeller> leichen = new List<Einzeller>();
+            if (rnd.NextDouble() < 0.02) //das Sterben mit einer Wahrscheinligkeit. Hier - 2 Prozent
+            {
+                leichen.Add(new Bakterie(this));
+            }
+            return leichen;
         }
     }
 
@@ -90,8 +101,28 @@ namespace Zellen
         {
 
         }
+        public Amoebe(Amoebe b) : base(b) { }//von oben abgeschrieben. Wiederholung: es kann zwei Konstruktoren sein
 
 
         //Methoden
+        public override List<Einzeller> Teilen()
+        {
+            List<Einzeller> toechter = new List<Einzeller>();
+            if (rnd.NextDouble() < 0.02) //das Entstehen mit einer Wahrscheinligkeit. Hier - 2 Prozent
+            {
+                toechter.Add(new Amoebe(this));
+            }
+            return toechter;
+        }
+
+        public override List<Einzeller> Sterben()
+        {
+            List<Einzeller> leichen = new List<Einzeller>();
+            if (rnd.NextDouble() < 0.02) //das Sterben mit einer Wahrscheinligkeit. Hier - 2 Prozent
+            {
+                leichen.Add(new Amoebe(this));
+            }
+            return leichen;
+        }
     }
 }
