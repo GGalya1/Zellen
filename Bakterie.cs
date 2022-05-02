@@ -92,7 +92,7 @@ namespace Zellen
 
         public override void Sterben()
         {
-            if (rnd.NextDouble() < 0.01) //das Sterben mit einer Wahrscheinligkeit. Hier - 2 Prozent
+            if (rnd.NextDouble() < 0.01) //das Sterben mit einer Wahrscheinligkeit. Hier - 1 Prozent
             {
                 this.istTot = true;
             }
@@ -111,20 +111,25 @@ namespace Zellen
     class Amoebe : Einzeller
     {
         //Eigenschaften
+        public bool hatgefressen { get; private set; }
 
         //Konstrutor
         public Amoebe(Canvas Flache) : base(10, Brushes.Red, Flache) //braucht nur Variable, nicht erneut "Canvas Flache" deklarieren
         {
-
+            hatgefressen = false;
         }
-        public Amoebe(Amoebe b) : base(b) { }//von oben abgeschrieben. Wiederholung: es kann zwei Konstruktoren sein
+        public Amoebe(Amoebe b) : base(b) //von oben abgeschrieben. Wiederholung: es kann zwei Konstruktoren sein
+        {
+            hatgefressen = false;
+            this.Farbe(Brushes.Red);
+        }
 
 
         //Methoden
         public override List<Einzeller> Teilen()
         {
             List<Einzeller> toechter = new List<Einzeller>();
-            if (rnd.NextDouble() < 0.02) //das Entstehen mit einer Wahrscheinligkeit. Hier - 2 Prozent
+            if (rnd.NextDouble() < 0.2 && hatgefressen) //das Entstehen mit einer Wahrscheinligkeit. Hier - 20 Prozent
             {
                 toechter.Add(new Amoebe(this));
             }
@@ -133,7 +138,7 @@ namespace Zellen
 
         public override void Sterben()
         {
-            if (rnd.NextDouble() < 0.01) //das Sterben mit einer Wahrscheinligkeit. Hier - 2 Prozent
+            if (rnd.NextDouble() < 0.01) //das Sterben mit einer Wahrscheinligkeit. Hier - 1 Prozent
             {
                 this.istTot = true;
             }
@@ -150,6 +155,7 @@ namespace Zellen
             {
                 futter.Sterben(true);
                 this.Farbe(Brushes.Aquamarine); //von sich selbst aufraufen. Hier: Farbe 
+                hatgefressen = true;
             }
         }
     }
