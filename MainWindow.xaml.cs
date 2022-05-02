@@ -82,5 +82,25 @@ namespace Zellen
                 zoo.Add(new Amoebe(Flache));
             }
         }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Point position = Mouse.GetPosition(Flache);
+            Amoebe a = new Amoebe(Flache);
+            //double PosX = position.X;
+            //double PosY = position.Y;
+
+            a.Click(position.X, position.Y);
+            zoo.Add(a);
+        }
+
+        private void Window_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Point position = Mouse.GetPosition(Flache);
+            Bakterie a = new Bakterie(Flache);
+
+            a.Click(position.X, position.Y);
+            zoo.Add(a);
+        }
     }
 }

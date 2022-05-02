@@ -42,6 +42,7 @@ namespace Zellen
             istTot = false;
         }
 
+
         //Methoden
         public void Zeichen(Canvas Flache)
         {
@@ -61,10 +62,17 @@ namespace Zellen
             e.Fill = color;
         }
 
+        public void Click(double posX, double posY)
+        {
+            PositionX = posX;
+            PositionY = posY;
+        }
+
         public abstract List<Einzeller> Teilen();
         public abstract void Sterben();
         public abstract void Sterben(bool stirb);
         public abstract void Fressen(Bakterie b);
+
     }
 
 
@@ -129,7 +137,7 @@ namespace Zellen
         public override List<Einzeller> Teilen()
         {
             List<Einzeller> toechter = new List<Einzeller>();
-            if (rnd.NextDouble() < 0.2 && hatgefressen) //das Entstehen mit einer Wahrscheinligkeit. Hier - 20 Prozent
+            if (rnd.NextDouble() < 0.1 && hatgefressen) //das Entstehen mit einer Wahrscheinligkeit. Hier - 20 Prozent
             {
                 toechter.Add(new Amoebe(this));
             }
@@ -158,5 +166,7 @@ namespace Zellen
                 hatgefressen = true;
             }
         }
+
+
     }
 }
