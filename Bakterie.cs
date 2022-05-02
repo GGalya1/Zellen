@@ -64,6 +64,7 @@ namespace Zellen
         public abstract List<Einzeller> Teilen();
         public abstract void Sterben();
         public abstract void Sterben(bool stirb);
+        public abstract void Fressen(Bakterie b);
     }
 
 
@@ -99,6 +100,10 @@ namespace Zellen
         public override void Sterben(bool stirb)
         {
             this.istTot = stirb;
+        }
+        public override void Fressen(Bakterie b)
+        {
+            
         }
     }
 
@@ -138,13 +143,13 @@ namespace Zellen
             this.istTot = stirb;
         }
 
-        public void Fressen(Bakterie futter)
+        public override void Fressen(Bakterie futter)
         {
             double Abstand = Math.Sqrt(Math.Pow(PositionX - futter.PositionX,2) + Math.Pow(PositionY - futter.PositionY, 2));
-            if (Abstand < 20)
+            if (Abstand < 10)
             {
                 futter.Sterben(true);
-                this.Farbe(Brushes.AliceBlue); //von sich selbst aufraufen. Hier: Farbe 
+                this.Farbe(Brushes.Aquamarine); //von sich selbst aufraufen. Hier: Farbe 
             }
         }
     }

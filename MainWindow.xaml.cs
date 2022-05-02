@@ -55,7 +55,7 @@ namespace Zellen
             {
                 if(itemAmoebe is Amoebe)
                 {
-                    foreach (Einzeller itemBakterie in Futter)
+                    foreach (Bakterie itemBakterie in Futter)
                     {
                         itemAmoebe.Fressen(itemBakterie);
                     }
@@ -75,6 +75,7 @@ namespace Zellen
         private void button_Click(object sender, RoutedEventArgs e)
         {
             timer.Start();
+            button.IsEnabled = false;
             for (int i = 0; i < 5; i++)
             {
                 zoo.Add(new Bakterie(Flache));
